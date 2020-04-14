@@ -22,6 +22,7 @@
         "sass-loader": "^7.1.0"
     },
     "dependencies": {
+        "babel-plugin-root-import": "^6.4.1",
         "composer": "^4.1.0"
     }
 }

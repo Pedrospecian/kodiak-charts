@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-export default class Header extends Component {
+export default class NavbarTop extends Component {
 	constructor(props) {
   		super(props);
 	}
 
 	render() {
         return (
-			<header className="text-shadow">{this.props.children}</header>
+			<ul className="navbar-top">{this.props.children}</ul>
 		);
 	}
 }

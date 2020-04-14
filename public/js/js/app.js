@@ -13,7 +13,3 @@ require('./bootstrap');
  */
 
 require('./components/Index');
-require('./components/pages/Charts');
-require('./components/pages/ChartsSingle');
-require('./components/pages/Archive');
-require('./components/pages/ArchiveSingle');
