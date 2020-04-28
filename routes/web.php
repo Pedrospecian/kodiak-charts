@@ -26,6 +26,9 @@ Route::get('/archive/{id}', function () {
 });
 
 //Rotas do admin
+Route::get('/admin', function(){
+	return view('admin/index');
+});
 
 //Países
 Route::get('/admin/paises', 'CountriesController@select')->name('paises-all');
@@ -45,5 +48,12 @@ Route::get('/admin/generos/{id}/subgenero', 'GenresController@new_subgenre');
 Route::post('/admin/generos/{id}/subgenero/insert', 'GenresController@new_subgenre_insert');
 
 //Artistas
+Route::get('/admin/artistas', 'ArtistsController@select')->name('artistas-all');
+Route::get('/admin/artistas/new', 'ArtistsController@insertScreen');
+Route::post('/admin/artistas/insert', 'ArtistsController@insert');
+Route::get('/admin/artistas/{id}', 'ArtistsController@single')->name('artist-single');
+Route::get('/admin/artistas/{id}/editar', 'ArtistsController@edit')->name('artist-edit');
+Route::post('/admin/artistas/{id}/update', 'ArtistsController@update');
 
 //Listas
+Route::get('/admin/listas', 'ListsController@select')->name('listas-all');

@@ -11,7 +11,7 @@
         </div>
         <form action="/admin/generos/{{$genre->genre_id}}/subgenero/insert" method="post" class="form-standard">
             @csrf
-            <div class="form-group">
+            <div class="form-group row">
                 <div class="field-wrapper w-30">
                     <label for="name">Nome</label>
                     <input type="text" name="name" id="name">

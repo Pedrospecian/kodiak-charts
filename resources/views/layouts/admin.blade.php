@@ -25,5 +25,15 @@
                 @yield('content')
             </div>
         </main>
+        <script>
+            setTimeout(function(){
+                var body = document.body,
+                    html = document.documentElement;
+
+                var height = document.getElementsByClassName('admin-content-wrapper')[0].offsetHeight;
+
+                document.getElementsByClassName('admin-sidebar')[0].style.height = (height) + 'px';
+            },500);
+        </script>
     </body>
 </html>
