@@ -98,7 +98,9 @@
                     </div>
                     @endif
                     <input type="file" name="image" id="image" class="js-image-field" @if(isset($artist) && $artist->image !== '') style="display: none;" @endif>
-                    <input type="hidden" name="oldImage" value="{{$artist->image}}">
+                    @if(isset($artist))
+                        <input type="hidden" name="oldImage" value="{{$artist->image}}">
+                    @endif
                 </div>
                 <div class="clearfix"></div>
             </div>
