@@ -31,7 +31,7 @@ class ArtistsController extends Controller
                 $imgURL = 'images/upload/' . $imgName;
             }
 
-            DB::table('artists')->insertOrIgnore([
+            DB::table('artists')->insert([
                 ['name' => $request->name,
                 'country_id' => $request->country,
                 'genre_id' => $request->genre,
@@ -87,6 +87,7 @@ class ArtistsController extends Controller
                      ->leftJoin('subgenres as sg1', 'artists.subgenre_id_1', '=', 'sg1.subgenre_id')
                      ->leftJoin('subgenres as sg2', 'artists.subgenre_id_2', '=', 'sg2.subgenre_id')
                      ->leftJoin('subgenres as sg3', 'artists.subgenre_id_3', '=', 'sg3.subgenre_id')
+                     ->orderBy('artists.name')
                      ->get();
 
         return view('admin.artists.index', ['artists' => $artists]);

@@ -15,7 +15,7 @@ class GenresController extends Controller
 {
     public function insert(Request $request) {
         try {
-            DB::table('genres')->insertOrIgnore([
+            DB::table('genres')->insert([
                 ['name' => $request->name]
             ]);
             return redirect()->route('generos-all')->with(['message' => 'Gênero criado com sucesso!', 'status' => 'success']);
@@ -25,14 +25,14 @@ class GenresController extends Controller
     }
 
     public function select(){
-        $genres = DB::table('genres')->get();
+        $genres = DB::table('genres')->orderBy('name')->get();
 
         return view('admin.genres.index', ['genres' => $genres]);
     }
 
     public function single($id){
         $genre = DB::table('genres')->where('genre_id', '=', $id)->first();
-        $subgenres = DB::table('subgenres')->where('genre_id', '=', $id)->get();
+        $subgenres = DB::table('subgenres')->where('genre_id', '=', $id)->orderBy('name')->get();
         return view('admin.genres.single', ['genre' => $genre, 'subgenres' => $subgenres]);
     }
 

@@ -15,7 +15,7 @@ class CountriesController extends Controller
 {
     public function insert(Request $request) {
         try {
-            DB::table('countries')->insertOrIgnore([
+            DB::table('countries')->insert([
                 ['name' => $request->name]
             ]);
             return redirect()->route('paises-all')->with(['message' => 'País criado com sucesso!', 'status' => 'success']);
@@ -25,7 +25,7 @@ class CountriesController extends Controller
     }
 
     public function select(){
-        $countries = DB::table('countries')->get();
+        $countries = DB::table('countries')->orderBy('name')->get();
 
         return view('admin.countries.index', ['countries' => $countries]);
     }

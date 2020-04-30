@@ -24,9 +24,9 @@ class CreateArtistsTable extends Migration
             $table->bigInteger('subgenre_id_3')->unsigned();
             $table->foreign('country_id')->references('country_id')->on('countries');
             $table->foreign('genre_id')->references('genre_id')->on('genres');
-            $table->foreign('subgenre_id_1')->references('subgenre_id')->on('subgenres')->nullable();
-            $table->foreign('subgenre_id_2')->references('subgenre_id')->on('subgenres')->nullable();
-            $table->foreign('subgenre_id_3')->references('subgenre_id')->on('subgenres')->nullable();
+            $table->foreign('subgenre_id_1')->nullable()->references('subgenre_id')->on('subgenres');
+            $table->foreign('subgenre_id_2')->nullable()->references('subgenre_id')->on('subgenres');
+            $table->foreign('subgenre_id_3')->nullable()->references('subgenre_id')->on('subgenres');
             $table->timestamps();
         });
     }
