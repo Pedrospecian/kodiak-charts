@@ -26,34 +26,43 @@ Route::get('/archive/{id}', function () {
 });
 
 //Rotas do admin
-Route::get('/admin', function(){
-	return view('admin/index');
+Route::middleware(['auth'])->group(function () {
+	Route::get('/admin', function(){
+		return view('admin/index');
+	});
+
+	//Países
+	Route::get('/admin/paises', 'CountriesController@select')->name('paises-all');
+	Route::get('/admin/paises/new', function(){
+		return view('admin/countries/new');
+	});
+	Route::post('/admin/paises/insert', 'CountriesController@insert');
+
+	//Gêneros
+	Route::get('/admin/generos', 'GenresController@select')->name('generos-all');
+	Route::get('/admin/generos/new', function(){
+		return view('admin/genres/new');
+	});
+	Route::post('/admin/generos/insert', 'GenresController@insert');
+	Route::get('/admin/generos/{id}', 'GenresController@single')->name('genre-single');
+	Route::get('/admin/generos/{id}/subgenero', 'GenresController@new_subgenre');
+	Route::post('/admin/generos/{id}/subgenero/insert', 'GenresController@new_subgenre_insert');
+
+	//Artistas
+	Route::get('/admin/artistas', 'ArtistsController@select')->name('artistas-all');
+	Route::get('/admin/artistas/new', 'ArtistsController@insertScreen');
+	Route::post('/admin/artistas/insert', 'ArtistsController@insert');
+	Route::get('/admin/artistas/{id}', 'ArtistsController@single')->name('artist-single');
+	Route::get('/admin/artistas/{id}/editar', 'ArtistsController@edit')->name('artist-edit');
+	Route::post('/admin/artistas/{id}/update', 'ArtistsController@update');
+
+	//Listas
+	Route::get('/admin/listas', 'ListsController@select')->name('listas-all');
+	Route::get('/admin/listas/new', 'ListsController@newForm');
+	Route::post('/admin/listas/insert', 'ListsController@insert');
+	Route::get('/admin/listas/{id}', 'ListsController@single')->name('list-single');
+	Route::get('/admin/listas/{id}/novoregistro', 'ListsController@newEntryForm');
+	Route::post('/admin/listas/insertEntry', 'ListsController@insertEntry');
 });
 
-//Países
-Route::get('/admin/paises', 'CountriesController@select')->name('paises-all');
-Route::get('/admin/paises/new', function(){
-	return view('admin/countries/new');
-});
-Route::post('/admin/paises/insert', 'CountriesController@insert');
-
-//Gêneros
-Route::get('/admin/generos', 'GenresController@select')->name('generos-all');
-Route::get('/admin/generos/new', function(){
-	return view('admin/genres/new');
-});
-Route::post('/admin/generos/insert', 'GenresController@insert');
-Route::get('/admin/generos/{id}', 'GenresController@single')->name('genre-single');
-Route::get('/admin/generos/{id}/subgenero', 'GenresController@new_subgenre');
-Route::post('/admin/generos/{id}/subgenero/insert', 'GenresController@new_subgenre_insert');
-
-//Artistas
-Route::get('/admin/artistas', 'ArtistsController@select')->name('artistas-all');
-Route::get('/admin/artistas/new', 'ArtistsController@insertScreen');
-Route::post('/admin/artistas/insert', 'ArtistsController@insert');
-Route::get('/admin/artistas/{id}', 'ArtistsController@single')->name('artist-single');
-Route::get('/admin/artistas/{id}/editar', 'ArtistsController@edit')->name('artist-edit');
-Route::post('/admin/artistas/{id}/update', 'ArtistsController@update');
-
-//Listas
-Route::get('/admin/listas', 'ListsController@select')->name('listas-all');
+Auth::routes();

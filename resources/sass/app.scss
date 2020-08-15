@@ -1,4 +1,13 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
 @import 'fonts';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
 
 * {
 	outline: none!important;
@@ -432,6 +441,30 @@ html, body {
     		border: none;
     	}
     }
+}
+
+.dark-blue-bg {	
+	background-color: #112547;
+	-webkit-box-shadow: inset 7px 10px 21px -6px rgba(0,0,0,0.75);
+	-moz-box-shadow: inset 7px 10px 21px -6px rgba(0,0,0,0.75);
+	box-shadow: inset 7px 10px 21px -6px rgba(0,0,0,0.75);
+}
+
+.navbar-auth li {
+	margin-left: 15px;
+}
+
+.input-name-song-new {
+	height: 27px;
+}
+
+.position-single {
+	margin-bottom: 10px;
+}
+
+.inactive {
+	pointer-events: none!important;
+	opacity: 0.4;
 }
 
 .form-standard {

@@ -10,28 +10,22 @@
             <div class="message {{session('status')}}">{{session('message') ?? '' }}</div>
         @endif
         <div class="top-section">
-            <h1>Listas</h1>
-            <a href="/admin/listas/new" class="btn">Nova</a>
+            <h1>{{ $list->name }}</h1>
+            <a href="/admin/listas/{{ $list->list_id }}/novoregistro" class="btn btn-primary">Novo registro</a>
         </div>
-        @if (count($lists) <= 0)
+        @if (count($entries) <= 0)
             <div class="not-found">Nenhum registro encontrado</div>
         @else        
             <table class="content-table">
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Posições</th>
-                        <th>Período</th>
-                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($lists as $list)
+                    @foreach ($entries as $entry)
                         <tr>
-                            <td>{{$list->name}}</td>
-                            <td>{{$list->positions}}</td>
-                            <td>{{$list->type_name}}</td>
-                            <td><a href="/admin/listas/{{ $list->list_id }}" class="btn btn-primary">Entries</a></td>
+                            <td>{{$entry->name}}</td>
                         </tr>
                     @endforeach
                 </tbody>

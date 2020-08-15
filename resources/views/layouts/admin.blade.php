@@ -3,12 +3,19 @@
     <head>
         <title>Kodiak Charts - @yield('title')</title>
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-        <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="/css/app.css">        
+        <link href="/vendor/css/select2.min.css" rel="stylesheet" />
     </head>
     <body class="admin">
         <header class="admin-header">
             <div class="admin-logo">Kodiak Charts</div>
-            <a href="#" class="link-logout">Logout</a>
+            <div>Bem-vindo, {{ Auth::user()->name }} - 
+                <a href="{{ route('logout') }}" class="link-logout" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">Sair</a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </div>
         </header>
         <main class="admin-main">
             @section('sidebar')
@@ -25,15 +32,8 @@
                 @yield('content')
             </div>
         </main>
-        <script>
-            setTimeout(function(){
-                var body = document.body,
-                    html = document.documentElement;
-
-                var height = document.getElementsByClassName('admin-content-wrapper')[0].offsetHeight;
-
-                document.getElementsByClassName('admin-sidebar')[0].style.height = (height) + 'px';
-            },500);
-        </script>
+        <script src="/vendor/js/jquery-3.5.1.min.js"></script>
+        <script src="/vendor/js/select2.min.js"></script>
+        <script src="/js/admin.js"></script>
     </body>
 </html>
