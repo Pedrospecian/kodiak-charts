@@ -5,6 +5,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <link rel="stylesheet" href="/css/app.css">        
         <link href="/vendor/css/select2.min.css" rel="stylesheet" />
+        <link href="/vendor/css/bootstrap-tagsinput.css" rel="stylesheet" />
     </head>
     <body class="admin">
         <header class="admin-header">
@@ -34,6 +35,9 @@
         </main>
         <script src="/vendor/js/jquery-3.5.1.min.js"></script>
         <script src="/vendor/js/select2.min.js"></script>
+        <script src="/vendor/js/typeahead.bundle.js"></script>
+        <script src="/vendor/js/bootstrap-tagsinput.min.js"></script>-->
         <script src="/js/admin.js"></script>
+        @yield('customscript')
     </body>
 </html>

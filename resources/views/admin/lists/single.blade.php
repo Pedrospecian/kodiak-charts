@@ -20,12 +20,14 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($entries as $entry)
                         <tr>
                             <td>{{$entry->name}}</td>
+                            <td><a href="/admin/listas/{{ $list->list_id }}/visualizar/{{ $entry->list_entry_id }}" class="btn btn-info">Visualizar</a></td>
                         </tr>
                     @endforeach
                 </tbody>

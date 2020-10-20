@@ -26,7 +26,46 @@ class ListsController extends Controller
         }
     }
 
+    public function seeEntry($id, $registroid) {
+        $positions = DB::table('list_positions')
+                   //->join('list_positions', 'list_entries.list_entry_id', '=', 'list_positions.list_id')
+                   ->join('songs', 'songs.song_id', '=', 'list_positions.song_id')
+                   ->join('artists as artista_principal', 'artista_principal.artist_id', '=', 'songs.main_artist_id')
+                   ->select(
+                    'list_positions.position as position',
+                    'songs.name as song_name',
+                    'artista_principal.name as artist_name',
+                    'artista_principal.image as artist_image',
+                    DB::raw('(SELECT GROUP_CONCAT(af.name)
+                     FROM artists_made_song a 
+                     INNER JOIN artists af ON a.artist_id = af.artist_id
+                    WHERE a.song_id = songs.song_id) AS feat')
+                   )
+                   ->where('list_positions.list_id', $registroid)
+                   /*->leftJoin('artists_made_song', 'artists_made_song.song_id', '=', 'songs.song_id')
+                   ->leftJoin('artists as artistas_feat', 'artistas_feat.artist_id', '=', 'artists_made_song.artist_id')*/
+                   /*->groupBy('position')
+                   ->groupBy('song_name')
+                   ->groupBy('artist_name')
+                   ->groupBy('artist_image')
+                   ->groupBy('id_do_feat')*/
+                   ->get();
+        $entry = DB::table('list_entries')
+                   ->where('list_entries.list_entry_id', $registroid)
+                   ->first();
+        //echo '<pre>';
+        //dd([$positions, $entry]);
+
+        if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/',$entry->date)) {
+            $dateFormatted = explode('-',$entry->date);
+            $entry->date = implode('/', [$dateFormatted[2], $dateFormatted[1], $dateFormatted[0]]);
+        }
+
+        return view('admin.lists.singleentry', ['entry' => $entry, 'positions' => $positions]);
+    }
+
     public function insertEntry(Request $request) {
+        //dd($request['songartist_feat_0']);
         try {
             $id = DB::table('list_entries')->insertGetId([
                 'name' => $request->name,
@@ -49,6 +88,13 @@ class ListsController extends Controller
                         'name' => $request->songname_new[$i],
                         'main_artist_id' => $request->songartist_main[$i]
                     ]);
+
+                    for($k = 0; $k < count($request['songartist_feat_'.$i]); $k++) {
+                        DB::table('artists_made_song')->insertGetId([
+                            'song_id' => $idSong,
+                            'artist_id' => $request['songartist_feat_'.$i][$k],
+                        ]);
+                    }
 
                     DB::table('list_positions')->insertGetId([
                         'list_id' => $id,
@@ -93,5 +139,41 @@ class ListsController extends Controller
         $list = DB::table('lists')->where('list_id',$id)->first();
         $entries = DB::table('list_entries')->where('list_id',$id)->get();
         return view('admin.lists.single', ['list' =>$list, 'entries'=>$entries]);
+    }
+
+    public function maiorPosicaoLista($idMusica, $idLista) {
+        $number = DB::table('lists')
+                    ->selectRaw('max(position) as maiorPosicao')
+                    ->join('list_entries', 'lists.list_id', '=', 'list_entries.list_id')
+                    ->join('list_positions', 'list_positions.list_id', '=', 'list_entries.list_entry_id')
+                    ->where('lists.list_id', '=', $idLista)
+                    ->where('list_positions.song_id', '=', $idMusica)
+                    ->get();
+        return $number;
+    }
+
+    public function positionLastWeek($idMusica, $idLista, $idEntryAtual) {
+        $number = DB::table('lists')
+                    ->select('list_positions.position', 'list_positions.list_position_id')
+                    ->join('list_entries', 'lists.list_id', '=', 'list_entries.list_id')
+                    ->join('list_positions', 'list_positions.list_id', '=', 'list_entries.list_entry_id')
+                    ->where('list_positions.list_id', '<=', $idEntryAtual)
+                    ->where('lists.list_id', '=', $idLista)
+                    ->where('list_positions.song_id', '=', $idMusica)
+                    ->orderby('list_position_id', 'desc')
+                    ->limit(2)
+                    ->get();
+        return $number;
+    }
+
+    public function noSemanasNoChart($idMusica, $idLista) {
+        $number = DB::table('lists')
+                    ->selectRaw('count(*) as numeroSemanas')
+                    ->join('list_entries', 'lists.list_id', '=', 'list_entries.list_id')
+                    ->join('list_positions', 'list_positions.list_id', '=', 'list_entries.list_entry_id')
+                    ->where('lists.list_id', '=', $idLista)
+                    ->where('list_positions.song_id', '=', $idMusica)
+                    ->get();
+        return $number;
     }
 }

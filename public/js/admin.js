@@ -23,8 +23,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$('.js-btn-feat').on('click', function(e) {
+	/*$('.js-btn-feat').on('click', function(e) {
 		e.preventDefault();
-
-	});
+	});*/
 });

@@ -62,7 +62,14 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/admin/listas/insert', 'ListsController@insert');
 	Route::get('/admin/listas/{id}', 'ListsController@single')->name('list-single');
 	Route::get('/admin/listas/{id}/novoregistro', 'ListsController@newEntryForm');
+	Route::get('/admin/listas/{id}/visualizar/{registroid}', 'ListsController@seeEntry')->name('list-register-single');
 	Route::post('/admin/listas/insertEntry', 'ListsController@insertEntry');
 });
 
 Auth::routes();
+
+
+//Estatisticas
+Route::get('/maiorPosicaoLista/{idMusica}/{idLista}', 'ListsController@maiorPosicaoLista');
+Route::get('/positionLastWeek/{idMusica}/{idLista}/{idEntryAtual}', 'ListsController@positionLastWeek');
+Route::get('/noSemanasNoChart/{idMusica}/{idLista}', 'ListsController@noSemanasNoChart');
