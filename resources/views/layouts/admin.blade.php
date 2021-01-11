@@ -25,7 +25,8 @@
                         <li><a href="/admin/paises">Países</a></li>
                         <li><a href="/admin/generos">Gêneros</a></li>
                         <li><a href="/admin/artistas">Artistas</a></li>
-                        <li><a href="/admin/listas">Listas</a></li>
+                        <li><a href="/admin/listas">Listas</a></li>                        
+                        <li><a href="/admin/listas-artistas">Listas de Artistas</a></li>
                     </ul>
                 </div>
             @show        
@@ -36,7 +37,7 @@
         <script src="/vendor/js/jquery-3.5.1.min.js"></script>
         <script src="/vendor/js/select2.min.js"></script>
         <script src="/vendor/js/typeahead.bundle.js"></script>
-        <script src="/vendor/js/bootstrap-tagsinput.min.js"></script>-->
+        <script src="/vendor/js/bootstrap-tagsinput.min.js"></script>
         <script src="/js/admin.js"></script>
         @yield('customscript')
     </body>

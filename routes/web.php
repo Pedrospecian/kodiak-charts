@@ -12,18 +12,12 @@
 */
 
 //Rotas do front-end
-Route::get('/', function () {
-    return view('chart/index');
-});
-Route::get('/charts/{id}', function () {
-    return view('chart/single');
-});
-Route::get('/archive', function () {
-    return view('archive/index');
-});
-Route::get('/archive/{id}', function () {
-    return view('archive/single');
-});
+Route::get('/', 'PagesController@chartIndex');
+Route::get('/charts/{id}', 'PagesController@chartSingle');
+Route::get('/chartsArtists/{id}', 'PagesController@chartSingleArtists');
+Route::get('/archive/{sort?}', 'PagesController@archiveIndex');
+Route::get('/archive/{id}', 'PagesController@archiveSingle');
+Route::get('/search', 'PagesController@search');
 
 //Rotas do admin
 Route::middleware(['auth'])->group(function () {
@@ -64,6 +58,15 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/admin/listas/{id}/novoregistro', 'ListsController@newEntryForm');
 	Route::get('/admin/listas/{id}/visualizar/{registroid}', 'ListsController@seeEntry')->name('list-register-single');
 	Route::post('/admin/listas/insertEntry', 'ListsController@insertEntry');
+
+	//Listas de Artistas
+	Route::get('/admin/listas-artistas', 'ListsArtistsController@select')->name('listas-artistas-all');
+	Route::get('/admin/listas-artistas/new', 'ListsArtistsController@newForm');
+	Route::post('/admin/listas-artistas/insert', 'ListsArtistsController@insert');
+	Route::get('/admin/listas-artistas/{id}', 'ListsArtistsController@single')->name('list-artist-single');
+	Route::get('/admin/listas-artistas/{id}/novoregistro', 'ListsArtistsController@newEntryForm');
+	Route::get('/admin/listas-artistas/{id}/visualizar/{registroid}', 'ListsArtistsController@seeEntry')->name('list-artist-register-single');
+	Route::post('/admin/listas-artistas/insertEntry', 'ListsArtistsController@insertEntry');
 });
 
 Auth::routes();

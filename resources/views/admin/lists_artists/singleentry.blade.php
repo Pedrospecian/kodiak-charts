@@ -24,9 +24,8 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Imagem do artista principal</th>
-                        <th>Artista(s)</th>
-                        <th>Nome da música</th>
+                        <th>Imagem</th>
+                        <th>Artista</th>
                         <th>Estatísticas</th>
                     </tr>
                 </thead>
@@ -38,30 +37,9 @@
                             <td><img src="{{ url($position->artist_image) }}" class="artist-image" alt="{{ $position->artist_name }}"></td>
                             <td>
                                 {{ $position->artist_name }}
-                                @if(null != $position->feat)
-                                ft. {{ $position->feat }}
-                                @endif
                             </td>
-                            <td>{{ $position->song_name }}</td>
                             <td>
-                                maior posição na lista: {{ $stats[0][$index][0]->maiorPosicao }}
-                                <br>
-                                status em relação à posição anterior (se subiu ou se desceu): 
-                                @if (count($stats[1][$index]) < 2 )
-                                    Novo
-                                @else
-                                    @if ($stats[1][$index][0]->position < $stats[1][$index][1]->position)
-                                        Desceu
-                                    @else
-                                        @if ($stats[1][$index][0]->position > $stats[1][$index][1]->position)
-                                            Subiu
-                                        @else
-                                            Inalterado
-                                        @endif
-                                    @endif
-                                @endif
-                                <br>
-                                weeks on chart (e em quantas listas dessa categoria essa musica apareceu anteriormente): {{ $stats[2][$index][0]->numeroSemanas }}
+                                
                             </td>
                         </tr>
 

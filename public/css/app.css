@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@charset "UTF-8";
 
 @font-face {
   font-family: "Mont-HeavyDEMO";
@@ -10,6 +10,13 @@
 @font-face {
   font-family: "FuturaBT-Medium";
   src: url(/fonts/FuturaBT-Medium.eot?90fbd44a7271ff2a16bdfa0b0ba12c0c) format("embedded-opentype"), url(/fonts/FuturaBT-Medium.woff?bbe3161c3e5aefe865844841f0c07230) format("woff"), url(/fonts/FuturaBT-Medium.ttf?0611cad6283ef4b7e90fb44158b38d4b) format("truetype"), url(/fonts/FuturaBT-Medium.svg?02ed1b2ee5a25b1490eaa7826ea4104b) format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "RobotoCondensed-Regular";
+  src: url(/fonts/RobotoCondensed-Regular.woff?2cd1aaee8ea06cc1b0df1ee3dd697aa1) format("woff"), url(/fonts/RobotoCondensed-Regular.ttf?52ee8b598488b1ffbaa93e50cbd6a2f4) format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -11409,7 +11416,7 @@ html,
 body {
   background-color: #fff;
   color: #636b6f;
-  font-family: "Nunito", sans-serif;
+  font-family: "RobotoCondensed-Regular";
   font-weight: 200;
   height: 100vh;
   margin: 0;
@@ -11464,7 +11471,7 @@ body {
   border: none;
   text-decoration: none;
   cursor: pointer;
-  font-family: Nunito, sans-serif;
+  font-family: "RobotoCondensed-Regular";
 }
 
 .btn:hover {
@@ -11672,7 +11679,7 @@ body {
   font-size: 30px;
   margin: 0;
   padding: 3px 30px 0;
-  font-family: "FuturaBT-Medium";
+  font-family: "RobotoCondensed-Regular";
   -webkit-box-pack: justify;
           justify-content: space-between;
 }
@@ -11721,15 +11728,27 @@ body {
   margin-right: 8px;
   position: relative;
   top: -5px;
-  font-family: "FuturaBT-Medium";
+  font-family: "RobotoCondensed-Regular";
 }
 
 .form-search .btn-close {
   display: none;
 }
 
+.form-search .opened {
+  display: none;
+}
+
 .form-search.active .btn-close {
   display: block;
+}
+
+.form-search.active .opened {
+  display: block;
+}
+
+.form-search.active .closed {
+  display: none;
 }
 
 .form-search.active .search-field-wrapper {
@@ -11897,7 +11916,7 @@ body {
 }
 
 .form-standard * {
-  font-family: Nunito, sans-serif;
+  font-family: "RobotoCondensed-Regular";
 }
 
 .form-standard .form-bottom {
@@ -11948,5 +11967,227 @@ body {
   left: 15px;
   width: calc(100% - 20px);
   z-index: 2;
+}
+
+footer {
+  font-size: 25.6px;
+  padding: 50px 0 80px;
+  color: #000000;
+  font-family: "RobotoCondensed-Regular";
+}
+
+.home-chart-wrapper {
+  margin-top: 62px;
+}
+
+.home-chart-element {
+  height: 280px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  color: #ffffff;
+  font-family: "RobotoCondensed-Regular";
+  margin-bottom: 45px;
+}
+
+.home-chart-element .text-wrapper .big {
+  font-family: "Mont-HeavyDEMO";
+  font-size: 36px;
+  margin-bottom: -15px;
+}
+
+.home-chart-element .front {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.home-chart-element .back img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.home-chart-element .text-wrapper {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: end;
+          align-items: flex-end;
+  padding: 37px 23px 13px;
+  height: 100%;
+}
+
+.home-chart-element .text-wrapper .auxiliar {
+  text-align: right;
+}
+
+.home-chart-element .text-wrapper .name {
+  font-size: 72px;
+  line-height: 77px;
+  text-align: left;
+}
+
+.home-chart-element .text-wrapper .small {
+  font-size: 22px;
+  font-size: 24px;
+}
+
+.home-chart-element .back {
+  /*position: relative;
+  z-index: -2;*/
+}
+
+.home-chart-wrapper a .home-chart-element .middle {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#0000ff));
+  background: linear-gradient(to bottom, #dddddd 0%, #0000ff 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#dddddd", endColorstr="#0000ff",GradientType=0 );
+  /* IE6-9 */
+  mix-blend-mode: hard-light;
+}
+
+.home-chart-wrapper a:nth-child(2) .home-chart-element .middle {
+  background: transparent;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#088800));
+  background: linear-gradient(to bottom, #dddddd 0%, #088800 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#dddddd", endColorstr="#088800",GradientType=0 );
+  /* IE6-9 */
+}
+
+.home-chart-wrapper a:nth-child(3) .home-chart-element .middle {
+  background: transparent;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#ff0000));
+  background: linear-gradient(to bottom, #dddddd 0%, #ff0000 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#dddddd", endColorstr="#ff0000",GradientType=0 );
+  /* IE6-9 */
+}
+
+.home-chart-wrapper a:nth-child(4) .home-chart-element .middle {
+  background: transparent;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#cccc00));
+  background: linear-gradient(to bottom, #dddddd 0%, #cccc00 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#dddddd", endColorstr="#cccc00",GradientType=0 );
+  /* IE6-9 */
+}
+
+.home-chart-wrapper a:nth-child(5) .home-chart-element .middle {
+  background: transparent;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#910ece));
+  background: linear-gradient(to bottom, #dddddd 0%, #910ece 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#dddddd", endColorstr="#910ece",GradientType=0 );
+  /* IE6-9 */
+}
+
+.home-chart-wrapper a:nth-child(6) .home-chart-element .middle {
+  background: transparent;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#ff0eae));
+  background: linear-gradient(to bottom, #dddddd 0%, #ff0eae 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#dddddd", endColorstr="#ff0eae",GradientType=0 );
+  /* IE6-9 */
+}
+
+.home-chart-wrapper a:nth-child(7) .home-chart-element .middle {
+  background: transparent;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#0fb9ff));
+  background: linear-gradient(to bottom, #dddddd 0%, #0fb9ff 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#dddddd", endColorstr="#0fb9ff",GradientType=0 );
+  /* IE6-9 */
+}
+
+.home-chart-wrapper a:nth-child(8) .home-chart-element .middle {
+  background: transparent;
+  /* Old browsers */
+  /* FF3.6-15 */
+  /* Chrome10-25,Safari5.1-6 */
+  background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#ff7211));
+  background: linear-gradient(to bottom, #dddddd 0%, #ff7211 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#dddddd", endColorstr="#ff7211",GradientType=0 );
+  /* IE6-9 */
+}
+
+.archives-all h1 {
+  font-size: 92.36px;
+}
+
+.archives-all h2 {
+  font-size: 36px;
+}
+
+.archives-all p {
+  font-size: 24.6px;
+}
+
+.archives-all ul {
+  list-style: none;
+  padding-left: 0;
+  font-size: 18px;
+}
+
+.artists-wrapper {
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.artists-wrapper .artist-single {
+  width: 33.3333%;
+  margin-bottom: 30px;
+}
+
+.artists-wrapper .artist-single a {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.artists-wrapper .artist-image {
+  display: block;
+  background-size: cover;
+  width: 80px;
+  height: 80px;
+  background-color: #888888;
+  background-image: url("https://via.placeholder.com/150");
 }
 

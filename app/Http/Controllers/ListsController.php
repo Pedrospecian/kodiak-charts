@@ -34,6 +34,8 @@ class ListsController extends Controller
                    ->select(
                     'list_positions.position as position',
                     'songs.name as song_name',
+                    'songs.song_id as song_id',
+                    'list_positions.list_entry_id as list_entry_id',
                     'artista_principal.name as artist_name',
                     'artista_principal.image as artist_image',
                     DB::raw('(SELECT GROUP_CONCAT(af.name)
@@ -41,7 +43,7 @@ class ListsController extends Controller
                      INNER JOIN artists af ON a.artist_id = af.artist_id
                     WHERE a.song_id = songs.song_id) AS feat')
                    )
-                   ->where('list_positions.list_id', $registroid)
+                   ->where('list_positions.list_entry_id', $registroid)
                    /*->leftJoin('artists_made_song', 'artists_made_song.song_id', '=', 'songs.song_id')
                    ->leftJoin('artists as artistas_feat', 'artistas_feat.artist_id', '=', 'artists_made_song.artist_id')*/
                    /*->groupBy('position')
@@ -61,7 +63,22 @@ class ListsController extends Controller
             $entry->date = implode('/', [$dateFormatted[2], $dateFormatted[1], $dateFormatted[0]]);
         }
 
-        return view('admin.lists.singleentry', ['entry' => $entry, 'positions' => $positions]);
+        $arr_maiorPosicaoLista = [];//maiorPosicaoLista($idMusica, $idLista);
+        $arr_positionLastWeek = [];//positionLastWeek($idMusica, $idLista, $idEntryAtual);
+        $arr_noSemanasNoChart = [];//noSemanasNoChart($idMusica, $idLista);
+
+        foreach($positions as $position) {
+            //dd($position);
+            array_push($arr_maiorPosicaoLista, ListsController::maiorPosicaoLista($position->song_id, $entry->list_id));
+            array_push($arr_positionLastWeek, ListsController::positionLastWeek($position->song_id, $entry->list_id, $position->list_entry_id));
+            //array_push($arr_positionLastWeek, $position->song_id. '/' .$position->list_entry_id. '/' .$entry->list_id);
+            array_push($arr_noSemanasNoChart, ListsController::noSemanasNoChart($position->song_id, $entry->list_id));
+        }
+
+
+        $stats = [$arr_maiorPosicaoLista, $arr_positionLastWeek, $arr_noSemanasNoChart];
+
+        return view('admin.lists.singleentry', ['entry' => $entry, 'positions' => $positions, 'stats' => $stats]);
     }
 
     public function insertEntry(Request $request) {
@@ -75,11 +92,14 @@ class ListsController extends Controller
             ]);
             //dd($request->songname_new);
 
+
+            //dd($request['songartist_feat_1']);
+
             for($i = 0; $i < $request->listpositions; $i++) {
                 $j = $i + 1;
                 if(isset($request->songname[$i])) {
                     DB::table('list_positions')->insertGetId([
-                        'list_id' => $id,
+                        'list_entry_id' => $id,
                         'song_id' => $request->songname[$i],
                         'position' => $j
                     ]);
@@ -89,15 +109,26 @@ class ListsController extends Controller
                         'main_artist_id' => $request->songartist_main[$i]
                     ]);
 
-                    for($k = 0; $k < count($request['songartist_feat_'.$i]); $k++) {
-                        DB::table('artists_made_song')->insertGetId([
-                            'song_id' => $idSong,
-                            'artist_id' => $request['songartist_feat_'.$i][$k],
-                        ]);
+                    if (is_array($request['songartist_feat_'.$i])) {
+                       for($k = 0; $k < count($request['songartist_feat_'.$i]); $k++) {
+                            DB::table('artists_made_song')->insertGetId([
+                                'song_id' => $idSong,
+                                'artist_id' => $request['songartist_feat_'.$i][$k],
+                            ]);
+                        } 
+                    } else {
+                        if (is_null($request['songartist_feat_'.$i])) {
+                            DB::table('artists_made_song')->insertGetId([
+                                'song_id' => $idSong,
+                                'artist_id' => $request['songartist_feat_'.$i],
+                            ]);
+                        }
                     }
 
+                    
+
                     DB::table('list_positions')->insertGetId([
-                        'list_id' => $id,
+                        'list_entry_id' => $id,
                         'song_id' => $idSong,
                         'position' => $j
                     ]);
@@ -141,23 +172,23 @@ class ListsController extends Controller
         return view('admin.lists.single', ['list' =>$list, 'entries'=>$entries]);
     }
 
-    public function maiorPosicaoLista($idMusica, $idLista) {
+    public static function maiorPosicaoLista($idMusica, $idLista) {
         $number = DB::table('lists')
-                    ->selectRaw('max(position) as maiorPosicao')
+                    ->selectRaw('min(position) as maiorPosicao')
                     ->join('list_entries', 'lists.list_id', '=', 'list_entries.list_id')
-                    ->join('list_positions', 'list_positions.list_id', '=', 'list_entries.list_entry_id')
+                    ->join('list_positions', 'list_positions.list_entry_id', '=', 'list_entries.list_entry_id')
                     ->where('lists.list_id', '=', $idLista)
                     ->where('list_positions.song_id', '=', $idMusica)
                     ->get();
         return $number;
     }
 
-    public function positionLastWeek($idMusica, $idLista, $idEntryAtual) {
+    public static function positionLastWeek($idMusica, $idLista, $idEntryAtual) {
         $number = DB::table('lists')
                     ->select('list_positions.position', 'list_positions.list_position_id')
                     ->join('list_entries', 'lists.list_id', '=', 'list_entries.list_id')
-                    ->join('list_positions', 'list_positions.list_id', '=', 'list_entries.list_entry_id')
-                    ->where('list_positions.list_id', '<=', $idEntryAtual)
+                    ->join('list_positions', 'list_positions.list_entry_id', '=', 'list_entries.list_entry_id')
+                    ->where('list_positions.list_entry_id', '<=', $idEntryAtual)
                     ->where('lists.list_id', '=', $idLista)
                     ->where('list_positions.song_id', '=', $idMusica)
                     ->orderby('list_position_id', 'desc')
@@ -166,11 +197,11 @@ class ListsController extends Controller
         return $number;
     }
 
-    public function noSemanasNoChart($idMusica, $idLista) {
+    public static function noSemanasNoChart($idMusica, $idLista) {
         $number = DB::table('lists')
                     ->selectRaw('count(*) as numeroSemanas')
                     ->join('list_entries', 'lists.list_id', '=', 'list_entries.list_id')
-                    ->join('list_positions', 'list_positions.list_id', '=', 'list_entries.list_entry_id')
+                    ->join('list_positions', 'list_positions.list_entry_id', '=', 'list_entries.list_entry_id')
                     ->where('lists.list_id', '=', $idLista)
                     ->where('list_positions.song_id', '=', $idMusica)
                     ->get();
