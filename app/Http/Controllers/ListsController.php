@@ -44,6 +44,7 @@ class ListsController extends Controller
                     WHERE a.song_id = songs.song_id) AS feat')
                    )
                    ->where('list_positions.list_entry_id', $registroid)
+                   ->orderBy('list_positions.position')
                    /*->leftJoin('artists_made_song', 'artists_made_song.song_id', '=', 'songs.song_id')
                    ->leftJoin('artists as artistas_feat', 'artistas_feat.artist_id', '=', 'artists_made_song.artist_id')*/
                    /*->groupBy('position')

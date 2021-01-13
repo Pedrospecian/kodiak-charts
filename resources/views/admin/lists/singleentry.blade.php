@@ -50,10 +50,10 @@
                                 @if (count($stats[1][$index]) < 2 )
                                     Novo
                                 @else
-                                    @if ($stats[1][$index][0]->position < $stats[1][$index][1]->position)
+                                    @if ($stats[1][$index][0]->position > $stats[1][$index][1]->position)
                                         Desceu
                                     @else
-                                        @if ($stats[1][$index][0]->position > $stats[1][$index][1]->position)
+                                        @if ($stats[1][$index][0]->position < $stats[1][$index][1]->position)
                                             Subiu
                                         @else
                                             Inalterado
