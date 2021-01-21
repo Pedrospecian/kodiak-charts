@@ -1,5 +1,5 @@
 @extends('layouts.front')
 
 @section('content')
-    <div>arquivo single</div>
+    <div>{{ $artist->name }}</div>
 @endsection

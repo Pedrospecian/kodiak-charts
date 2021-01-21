@@ -33,6 +33,7 @@ class ListsArtistsController extends Controller
                    ->select(
                     'list_positions_artists.position as position',
                     'list_positions_artists.list_entry_id as list_entry_id',
+                    'artists.artist_id as artist_id',
                     'artists.name as artist_name',
                     'artists.image as artist_image'
                    )
@@ -153,12 +154,12 @@ class ListsArtistsController extends Controller
     }
 
     public static function maiorPosicaoLista($idMusica, $idLista) {
-        $number = DB::table('list_artists')
+        $number = DB::table('lists_artists')
                     ->selectRaw('min(position) as maiorPosicao')
-                    ->join('list_artist_entries', 'lists.list_id', '=', 'list_artist_entries.list_id')
+                    ->join('list_artist_entries', 'lists_artists.list_id', '=', 'list_artist_entries.list_id')
                     ->join('list_positions_artists', 'list_positions_artists.list_entry_id', '=', 'list_artist_entries.list_entry_id')
                     ->where('lists_artists.list_id', '=', $idLista)
-                    ->where('list_positions_artists.song_id', '=', $idMusica)
+                    ->where('list_positions_artists.artist_id', '=', $idMusica)
                     ->get();
         return $number;
     }
@@ -166,11 +167,11 @@ class ListsArtistsController extends Controller
     public static function positionLastWeek($idMusica, $idLista, $idEntryAtual) {
         $number = DB::table('lists_artists')
                     ->select('list_positions_artists.position', 'list_positions_artists.list_position_id')
-                    ->join('list_artist_entries', 'lists.list_id', '=', 'list_artist_entries.list_id')
+                    ->join('list_artist_entries', 'lists_artists.list_id', '=', 'list_artist_entries.list_id')
                     ->join('list_positions_artists', 'list_positions_artists.list_entry_id', '=', 'list_artist_entries.list_entry_id')
                     ->where('list_positions_artists.list_entry_id', '<=', $idEntryAtual)
                     ->where('lists_artists.list_id', '=', $idLista)
-                    ->where('list_positions_artists.song_id', '=', $idMusica)
+                    ->where('list_positions_artists.artist_id', '=', $idMusica)
                     ->orderby('list_position_id', 'desc')
                     ->limit(2)
                     ->get();
@@ -183,7 +184,7 @@ class ListsArtistsController extends Controller
                     ->join('list_artist_entries', 'lists_artists.list_id', '=', 'list_artist_entries.list_id')
                     ->join('list_positions_artists', 'list_positions_artists.list_entry_id', '=', 'list_artist_entries.list_entry_id')
                     ->where('lists_artists.list_id', '=', $idLista)
-                    ->where('list_positions_artists.song_id', '=', $idMusica)
+                    ->where('list_positions_artists.artist_id', '=', $idMusica)
                     ->get();
         return $number;
     }

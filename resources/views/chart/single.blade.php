@@ -18,7 +18,7 @@
 	                    		{{ $position->song_name }}
 	                    	</div>
 	                    	<div class="song-artist">
-	                    		{{ $position->artist_name }}
+	                    		<a href="/archive/single/{{ $position->main_artist_id }}">{{ $position->artist_name }}</a>
 		                        @if(null != $position->feat)
 		                        ft. {{ $position->feat }}
 		                        @endif

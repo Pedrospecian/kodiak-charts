@@ -13,9 +13,9 @@
                 <div class="header-logo">Kodiak Charts</div>
                 <ul class="navbar-top">
                     <li><a href="/">Charts</a></li>
-                    <li><a href="/charts/1">Artist Archives</a></li>
+                    <!--<li><a href="/charts/1">Artist Archives</a></li>-->
                     <li><a href="/archive">Archives</a></li>
-                    <li><a href="/archive/1">Archive Singles</a></li>
+                    <!--<li><a href="/archive/1">Archive Singles</a></li>-->
                     <li>
                         <form class="form-search js-search-form" action="/search" method="get">
                             <!-- Busca por artista -->

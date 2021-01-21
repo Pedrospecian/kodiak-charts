@@ -16,8 +16,8 @@ Route::get('/', 'PagesController@chartIndex');
 Route::get('/charts/{id}', 'PagesController@chartSingle');
 Route::get('/chartsArtists/{id}', 'PagesController@chartSingleArtists');
 Route::get('/archive/{sort?}', 'PagesController@archiveIndex');
-Route::get('/archive/{id}', 'PagesController@archiveSingle');
-Route::get('/search', 'PagesController@search');
+Route::get('/archive/single/{id}', 'PagesController@archiveSingle');
+Route::get('/search/{sort?}', 'PagesController@search');
 
 //Rotas do admin
 Route::middleware(['auth'])->group(function () {

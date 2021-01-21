@@ -97,6 +97,7 @@ class PagesController extends Controller
                         'songs.song_id as song_id',
                         'list_positions.list_entry_id as list_entry_id',
                         'artista_principal.name as artist_name',
+                        'artista_principal.artist_id as main_artist_id',
                         'artista_principal.image as artist_image',
                         DB::raw('(SELECT GROUP_CONCAT(af.name)
                          FROM artists_made_song a 
@@ -136,8 +137,69 @@ class PagesController extends Controller
         }
     }
 
-    public function chartSingleArtists($id) {        
-        return view('chart/singleArtist');
+    public function chartSingleArtists($id) {   
+        $entry = DB::table('list_artist_entries')
+                   ->where('list_id', $id)
+                   ->orderBy('list_entry_id', 'desc')
+                   ->first();
+        // dd($entry);
+
+        $list = DB::table('lists')
+                   ->where('list_id', $id)
+                   ->first();
+
+        if(is_null($entry)) {
+            return view('chart/single', ['emptyMessage' => 'This chart currently has no entries', 'list' => $list]);
+        } else {
+
+            $positions = DB::table('list_positions_artists')
+                       //->join('list_positions', 'list_entries.list_entry_id', '=', 'list_positions.list_id')
+                       ->join('artists', 'artists.artist_id', '=', 'list_positions_artists.artist_id')
+                       // ->join('artists as artista_principal', 'artista_principal.artist_id', '=', 'songs.main_artist_id')
+                       ->select(
+                        'list_positions_artists.position as position',
+                        // 'songs.name as song_name',
+                        'artists.artist_id as artist_id',
+                        'list_positions_artists.list_entry_id as list_entry_id',
+                        'artists.name as artist_name',
+                        'artists.image as artist_image',
+                        /*DB::raw('(SELECT GROUP_CONCAT(af.name)
+                         FROM artists_made_song a 
+                         INNER JOIN artists af ON a.artist_id = af.artist_id
+                        WHERE a.song_id = songs.song_id) AS feat')*/
+                       )
+                       ->where('list_positions_artists.list_entry_id', $entry->list_entry_id)
+                       ->orderBy('list_positions_artists.position')
+                       ->get();
+            /*$entry = DB::table('list_entries')
+                       ->where('list_entries.list_entry_id', $entry->list_entry_id)
+                       ->first();*/
+            //echo '<pre>';
+            //dd([$positions, $entry]);
+
+            if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/',$entry->date)) {
+                $dateFormatted = explode('-',$entry->date);
+                $entry->date = implode('/', [$dateFormatted[2], $dateFormatted[1], $dateFormatted[0]]);
+            }
+
+            $arr_maiorPosicaoLista = [];//maiorPosicaoLista($idMusica, $idLista);
+            $arr_positionLastWeek = [];//positionLastWeek($idMusica, $idLista, $idEntryAtual);
+            $arr_noSemanasNoChart = [];//noSemanasNoChart($idMusica, $idLista);
+
+            foreach($positions as $position) {
+                //dd($position);
+                array_push($arr_maiorPosicaoLista, ListsArtistsController::maiorPosicaoLista($position->artist_id, $entry->list_id));
+                array_push($arr_positionLastWeek, ListsArtistsController::positionLastWeek($position->artist_id, $entry->list_id, $position->list_entry_id));
+                //array_push($arr_positionLastWeek, $position->artist_id. '/' .$position->list_entry_id. '/' .$entry->list_id);
+                array_push($arr_noSemanasNoChart, ListsArtistsController::noSemanasNoChart($position->artist_id, $entry->list_id));
+            }
+
+
+            $stats = [$arr_maiorPosicaoLista, $arr_positionLastWeek, $arr_noSemanasNoChart];
+
+            return view('chart/singleArtist', ['entry' => $entry, 'positions' => $positions, 'stats' => $stats, 'emptyMessage' => null, 'list' => $list]);
+        }     
+        // return view('chart/singleArtist');
     }
 
     public function archiveIndex($sort = '') {
@@ -158,11 +220,26 @@ class PagesController extends Controller
         return view('archive/index', ['artists' => $artists]);
     }
 
-    public function search() {
-        echo 'busca';
+    public function search(Request $request, $sort = '') {
+        switch ($sort) {
+            case "az":
+                $artists = DB::table('artists')->where('name','LIKE','%'.$request->get('search').'%')->orderBy('name')->get();
+                break;
+            case "za":
+                $artists = DB::table('artists')->where('name','LIKE','%'.$request->get('search').'%')->orderBy('name', 'desc')->get();
+                break;
+            case "newartists":
+                $artists = DB::table('artists')->where('name','LIKE','%'.$request->get('search').'%')->orderBy('created_at', 'desc')->get();
+                break;
+            default:
+                $artists = DB::table('artists')->where('name','LIKE','%'.$request->get('search').'%')->get();
+        }
+        
+        return view('archive/search', [ 'artists' => $artists, 'term' => $request->get('search') ]);
     }
 
-    public function archiveSingle() {
-        return view('archive/single');
+    public function archiveSingle($id) {
+        $artist = DB::table('artists')->where('artist_id', $id)->first();
+        return view('archive/single', [ 'artist' => $artist ]);
     }
 }

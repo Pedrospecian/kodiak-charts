@@ -37,6 +37,7 @@ class ListsController extends Controller
                     'songs.song_id as song_id',
                     'list_positions.list_entry_id as list_entry_id',
                     'artista_principal.name as artist_name',
+                    'artista_principal.artist_id as main_artist_id',
                     'artista_principal.image as artist_image',
                     DB::raw('(SELECT GROUP_CONCAT(af.name)
                      FROM artists_made_song a 
