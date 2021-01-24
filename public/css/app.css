@@ -11856,6 +11856,14 @@ body {
   width: 216px;
 }
 
+.data-show-id [data-show-id] {
+  display: none;
+}
+
+.data-show-id [data-show-id].show {
+  display: block;
+}
+
 .admin-header {
   display: -webkit-box;
   display: flex;

@@ -185,6 +185,18 @@ class ListsController extends Controller
         return $number;
     }
 
+    public static function dataDaMaiorPosicaoLista($idMusica, $idLista) {
+        $date = DB::table('lists')
+                    ->select('list_entries.date')
+                    ->join('list_entries', 'lists.list_id', '=', 'list_entries.list_id')
+                    ->join('list_positions', 'list_positions.list_entry_id', '=', 'list_entries.list_entry_id')
+                    ->where('lists.list_id', '=', $idLista)
+                    ->where('list_positions.song_id', '=', $idMusica)
+                    ->where('list_positions.position', DB::raw('(SELECT min(position) as maiorPosicao FROM list_positions WHERE song_id = ' . $idMusica . ')'))
+                    ->get();
+        return $date;
+    }
+
     public static function positionLastWeek($idMusica, $idLista, $idEntryAtual) {
         $number = DB::table('lists')
                     ->select('list_positions.position', 'list_positions.list_position_id')
@@ -207,6 +219,18 @@ class ListsController extends Controller
                     ->where('lists.list_id', '=', $idLista)
                     ->where('list_positions.song_id', '=', $idMusica)
                     ->get();
+        return $number;
+    }
+
+    public static function ultimaEntry($idMusica, $idLista) {
+        $number = DB::table('lists')
+                    ->select('list_entries.date as ultimaEntry')
+                    ->join('list_entries', 'lists.list_id', '=', 'list_entries.list_id')
+                    ->join('list_positions', 'list_positions.list_entry_id', '=', 'list_entries.list_entry_id')
+                    ->where('lists.list_id', '=', $idLista)
+                    ->where('list_positions.song_id', '=', $idMusica)
+                    ->orderby('list_position_id', 'desc')
+                    ->first();
         return $number;
     }
 }

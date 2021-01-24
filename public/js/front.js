@@ -21,7 +21,17 @@ $(document).ready(function(){
 			$(this).parents('.position-single').find('.js-newsong').addAttr('required');
 			$(this).parents('.position-single').find('.js-newsong select').addAttr('required');
 		}
-	});
+	});	
+
+	if ($('[data-list-id]').length > 0) {
+		$('[data-list-id]').on('click', function(e){
+			e.preventDefault();
+			$('[data-show-id]').removeClass('show');
+			$('[data-show-id=' + $(this).attr('data-list-id')+ ']').addClass('show');
+		});
+
+		$('[data-list-id]').trigger('click');
+	}
 
 	/*$('.js-btn-feat').on('click', function(e) {
 		e.preventDefault();

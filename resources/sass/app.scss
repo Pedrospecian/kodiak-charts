@@ -425,6 +425,14 @@ html, body {
 	}
 }
 
+.data-show-id [data-show-id] {
+	display: none;
+}
+
+.data-show-id [data-show-id].show {
+	display: block;
+}
+
 .admin {
 	&-header {
 		display: flex;

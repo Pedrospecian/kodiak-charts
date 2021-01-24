@@ -239,7 +239,81 @@ class PagesController extends Controller
     }
 
     public function archiveSingle($id) {
-        $artist = DB::table('artists')->where('artist_id', $id)->first();
-        return view('archive/single', [ 'artist' => $artist ]);
+        $artist = DB::table('artists')
+                  ->select(
+                    'artists.name as artist_name', 
+                    'artists.image as artist_image', 
+                    'countries.name as country_name', 
+                    'genres.name as genre_name', 
+                    'sub1.name as sub1_name', 
+                    'sub2.name as sub2_name',
+                    'sub3.name as sub3_name'
+                  )
+                  ->join('countries', 'artists.country_id', '=', 'countries.country_id')
+                  ->join('genres', 'artists.genre_id', '=', 'genres.genre_id')
+                  ->join('subgenres as sub1', 'artists.subgenre_id_1', '=', 'sub1.genre_id')
+                  ->join('subgenres as sub2', 'artists.subgenre_id_2', '=', 'sub2.genre_id')
+                  ->join('subgenres as sub3', 'artists.subgenre_id_3', '=', 'sub3.genre_id')
+                  ->where('artists.artist_id', $id)
+                  ->first();
+
+        $songs = DB::table('songs')
+                 ->select('songs.name', 'songs.song_id')
+                 ->where('songs.main_artist_id', $id)
+                 ->get();
+
+        $lists = DB::table('lists')
+                 ->select('lists.list_id', 'lists.name')
+                 ->join('list_entries', 'list_entries.list_id', '=', 'lists.list_id')
+                 ->join('list_positions', 'list_positions.list_entry_id', '=', 'list_entries.list_entry_id')
+                 ->join('songs', 'songs.song_id', '=', 'list_positions.song_id')
+                 ->where('songs.main_artist_id', $id)
+                 ->groupby('lists.list_id','lists.name')
+                 ->get();
+
+        $numberLists = count($lists);
+        $songsStatsLists = [];
+
+        for($i = 0; $i < $numberLists; $i++) {
+            /*$entry = DB::table('list_artist_entries')
+                   ->where('list_id', $lists[$i]->list_id)
+                   ->orderBy('list_entry_id', 'desc')
+                   ->first();*/
+
+            $positions = DB::table('list_positions')
+                       //->join('list_positions', 'list_entries.list_entry_id', '=', 'list_positions.list_id')
+                       ->join('songs', 'songs.song_id', '=', 'list_positions.song_id')
+                       ->join('list_entries', 'list_entries.list_entry_id', '=', 'list_positions.list_entry_id')
+                       ->join('lists', 'list_entries.list_id', '=', 'list_entries.list_id')
+                       ->select(
+                        'songs.song_id as song_id'
+                       )
+                       ->where('lists.list_id', $lists[$i]->list_id)
+                       ->where('songs.main_artist_id', $id)
+                       ->orderBy('list_positions.position')
+                       ->groupby('song_id')
+                       ->get();
+
+
+            $songi = [];
+
+            foreach($positions as $position) {
+                array_push($songi, [
+                    'song_id' => $position->song_id,
+                    'maiorPosicao' => ListsController::maiorPosicaoLista($position->song_id, $lists[$i]->list_id),
+                    'maiorPosicaoData' => ListsController::dataDaMaiorPosicaoLista($position->song_id, $lists[$i]->list_id),
+                    'noSemanasNoChart' => ListsController::noSemanasNoChart($position->song_id, $lists[$i]->list_id),
+                    'ultimaEntry' => ListsController::ultimaEntry($position->song_id, $lists[$i]->list_id),
+                    'list_id' => $lists[$i]->list_id
+                ]);
+            }
+
+            array_push($songsStatsLists, $songi);
+        }  
+
+        //falta implementar rankings gerais
+
+
+        return view('archive/single', [ 'artist' => $artist, 'songs' => $songs, 'lists' => $lists, 'songsStatsLists' => $songsStatsLists]);
     }
 }
