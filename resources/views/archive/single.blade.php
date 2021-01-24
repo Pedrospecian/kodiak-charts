@@ -3,58 +3,67 @@
 @section('content')
 <?php $meses = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; ?>
 <?php $suffix = ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'] ?>
+<div class="artist-interna">
     <div class="artist-top d-flex">
-        <div><img src="{{ asset($artist->artist_image) }}"></div>
-        <div>{{ $artist->artist_name }}</div>
-        <div>
-            <div>
-                #2
-                <br>
+        <div class="artist-image"><img src="{{ asset($artist->artist_image) }}" class="artist-image"></div>
+        <div class="artist-name"><strong>{{ $artist->artist_name }}</strong></div>
+        <div class="artist-ranking-info">
+            <div class="artist-ranking-block">
+                <div class="number"><strong>#2</strong></div>
                 Kodiak's all time artists ranking
             </div>
-            <div>
-                #7
-                <br>
+            <div class="artist-ranking-block">
+                <div class="number"><strong>#7</strong></div>
                 Kodiak Charts artist ranking
             </div>
         </div>
     </div>
-    <div class="d-flex">
+    <div class="after-top d-flex">
         <div class="artist-box-single">
             Most successful track in charts
-            <br>
-            a
+            <strong class="artist-box-name">
+                a
+            </strong>
         </div>
 
         <div class="artist-box-single">
             Kodiak's favorite song
-            <br>
-            a
+            <strong class="artist-box-name">
+                a
+            </strong>
         </div>
 
         <div class="artist-box-single">
             Kodiak's favorite album
-            <br>
-            a
+            <strong class="artist-box-name">
+                a
+            </strong>
         </div>
     </div>
 
     <div class="tabs-wrapper d-flex">
         @foreach($lists as $list)
-        <a href="#" data-list-id="{{ $list->list_id}}">{{ $list->name }}</a>
+        <a class="tab-single" href="#" data-list-id="{{ $list->list_id}}">{{ $list->name }}</a>
         @endforeach
     </div>
     <div class="tabs-bottom d-flex">
         <div class="tabs-content-wrapper">
+            <div class="d-flex tabs-top-info">
+                <div><b>0</b> no.1 songs</div>
+                <div><b>2</b> top 10 hits</div>
+                <div><b>6</b> charting songs</div>
+            </div>
             <div>
                 <?php $counter = 1; ?>
                 @foreach($songs as $song)
                 <div class="song-single">
-                    <div class="song-name">{{ $song->name }}</div>
-                    <div class="song-number">{{ $counter }}</div>
+                    <div class="song-top">
+                        <div class="song-name"><strong>{{ $song->name }}</strong></div>
+                        <div class="song-number"><strong>{{ $counter }}</strong></div>
+                    </div>
                     <div class="song-info">
                         <div class="info-left">
-                            <span>
+                            <strong>
                                 @foreach($songsStatsLists as $po)
                                     <?php $asas = 0; ?>
                                     @foreach($po as $p)
@@ -73,7 +82,7 @@
                                         @endif     
                                     @endforeach
                                 @endforeach
-                            </span>
+                            </strong>
                             weeks on chart /
                             Last entry:
                             <span>
@@ -101,7 +110,7 @@
                         </div>
                         <div class="info-right">
                             Peaked at
-                            <span>
+                            <strong>
                                 @foreach($songsStatsLists as $po)
                                     <?php $asas = 0; ?>
                                     @foreach($po as $p)
@@ -120,7 +129,7 @@
                                         @endif     
                                     @endforeach
                                 @endforeach
-                            </span>
+                            </strong>
                             on
                             <div>
                                 @foreach($songsStatsLists as $po)
@@ -152,11 +161,11 @@
             </div>
         </div>
         <div class="side-info">
-            {{ $artist->artist_name }}
-            <div>Origin: {{ $artist->country_name }}</div>
-            <div>Main Genre: {{ $artist->genre_name }}</div>
+            <div class="title-main">{{ $artist->artist_name }}</div>
+            <div><strong>Origin:</strong> {{ $artist->country_name }}</div>
+            <div><strong>Main Genre:</strong> {{ $artist->genre_name }}</div>
             <div>
-                Subgenre(s): {{ $artist->sub1_name }}
+                <strong>Subgenre(s):</strong> {{ $artist->sub1_name }}
                 @if(!is_null($artist->sub2_name))
                     , {{ $artist->sub2_name }}
                 @endif
@@ -165,18 +174,17 @@
                 @endif
             </div>
             <div>
-                Rankings
+                <div class="title-sub">Rankings</div>
+                <strong>All Time Ranking:</strong> #1
                 <br>
-                All Time Ranking: #1
+                <strong>Charts Ranking:</strong> #2
                 <br>
-                Charts Ranking: #2
+                <strong>{{ $artist->country_name }} Ranking:</strong> #1
                 <br>
-                {{ $artist->country_name }} Ranking: #1
-                <br>
-                {{ $artist->genre_name }} Ranking: #2
+                <strong>{{ $artist->genre_name }} Ranking:</strong> #2
                 <br>
                 @if(!is_null( $artist->sub1_name ))
-                    {{ $artist->sub1_name }} Ranking: #3
+                    <strong>{{ $artist->sub1_name }} Ranking:</strong> #3
                 @endif
             </div>
         </div>
@@ -194,4 +202,5 @@
             </li>
         @endforeach
     </ul>
+</div>
 @endsection

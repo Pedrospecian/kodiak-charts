@@ -433,6 +433,50 @@ html, body {
 	display: block;
 }
 
+.artist-interna {
+	.artist-top {
+		background: #0054a6; /* Old browsers */
+		background: -moz-linear-gradient(top,  #0054a6 0%, #013567 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top,  #0054a6 0%,#013567 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom,  #0054a6 0%,#013567 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0054a6', endColorstr='#013567',GradientType=0 ); /* IE6-9 */
+		padding: 16px 70px;
+		width: 100%;
+	}
+
+	.after-top, .tabs-wrapper, .tabs-bottom {
+		padding-left: 70px;
+		padding-right: 70px;
+		width: 100%;
+	}
+
+	.tabs-wrapper {
+		justify-content: flex-start;
+		.tab-single {
+			background-color: #d7d7d7;
+			margin-right: 1px;
+			margin-left: 1px;
+
+			&.active {
+				background-color: #ebebeb;
+			}
+		}
+	}
+
+	.tabs-bottom {
+		background-color: #ebebeb;
+
+		.song-single {
+			margin-bottom: 12px;
+			background-color: #d7d7d7;
+		}
+
+		.side-info {
+			background-color: #f8f8f8; 
+		}
+	}
+}
+
 .admin {
 	&-header {
 		display: flex;
@@ -823,4 +867,272 @@ footer {
 		background-color: #888888;
 		background-image: url("https://via.placeholder.com/150");
 	}
+}
+
+.artist-interna {
+	.artist-image {
+		display: block;
+		background-size: cover;
+		width: 80px;
+		height: 300px;
+		max-height: 100%;
+		object-fit: contain;
+		background-color: #888888;
+		background-image: url("https://via.placeholder.com/150");
+	}
+}
+
+
+.artist-interna .artist-top {
+  color: #000000;
+  align-items: center;
+}
+
+.artist-interna .artist-top .artist-name {
+  margin-left: 38px;
+  font-size: 72px;
+  width: calc(100% - 682px);
+  text-align: left;
+}
+
+.artist-interna .artist-top .artist-image,
+.artist-interna .artist-top .artist-ranking-info {
+  width: 322px;
+}
+
+.artist-interna .artist-top .artist-ranking-info {
+
+}
+
+.artist-interna .artist-top .artist-ranking-block {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: solid 3px #000000;
+  padding: 14px;
+  font-size: 30px;
+  text-align: center;
+  line-height: auto;
+}
+
+.artist-interna .artist-top .number {
+  font-size: 72px;
+}
+
+.after-top {
+  padding-top: 22px;
+  padding-bottom: 22px;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+
+.after-top .artist-box-single {
+  background-color: #ebebeb;
+  font-size: 24px;
+  width: 370px;
+  padding: 12px 18px;
+  text-align: left;
+  color: #000000;
+  border-radius: 8px;
+}
+
+.after-top .artist-box-single .artist-box-name {
+  font-size: 36px;
+  display: block;
+}
+
+.tabs-wrapper .tab-single {
+  min-width: 240px;
+  color: #555555;
+  font-size: 18px;
+  line-height: normal;
+  padding: 10px 4px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+.tabs-bottom {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.tabs-bottom .tabs-content-wrapper {
+  width: calc(100% - 452px);
+}
+
+.tabs-bottom .side-info {
+  width: 432px;
+  margin-left: 20px;
+  height: 630px;
+  padding: 14px 20px;
+  border-radius: 8px;
+  color: #000000;
+  font-size: 30px;
+  line-height: normal;
+}
+
+.tabs-bottom .side-info .title-main {
+  font-size: 48px;
+  margin: 20px 0;
+  font-weight: 900;
+}
+
+.tabs-bottom .side-info .title-sub {
+  margin: 50px 0 16px;
+  font-weight: 900;
+  font-size: 36px;
+}
+
+.tabs-bottom .tabs-content-wrapper .song-single {
+  text-align: left;
+  padding: 14px 30px;
+  border-radius: 8px;
+}
+
+.tabs-bottom .tabs-content-wrapper .song-single .song-top,
+.tabs-bottom .tabs-content-wrapper .song-single .song-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabs-bottom .tabs-content-wrapper .song-single .song-info {
+  align-items: flex-end;
+  color: #000000;
+}
+
+.tabs-bottom .tabs-content-wrapper .song-single .song-info .info-left {
+  font-size: 18px;
+}
+
+.tabs-bottom .tabs-content-wrapper .song-single .song-info .info-right {
+  text-align: right;
+  font-size: 24px;
+  line-height: normal;
+}
+
+.tabs-bottom .tabs-content-wrapper .tabs-top-info {
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-size: 24px;
+  color: #000000;
+}
+
+.tabs-bottom .tabs-content-wrapper .tabs-top-info b {
+  font-weight: 900;
+}
+
+.tabs-bottom .tabs-content-wrapper .song-single .song-top .song-name {
+  font-size: 33px;
+  color: #000000;
+  font-weight: 900;
+}
+
+.tabs-bottom .tabs-content-wrapper .song-single .song-top .song-number {
+  font-size: 30px;
+  color: #8d8d8d;
+  font-weight: 900;
+}
+
+.tabs-bottom strong {
+  font-weight: 900;
+}
+
+.front .navbar-top {
+  line-height: 37px;
+}
+
+.form-search {
+  margin-top: 2px;
+}
+
+.form-search button {
+  position: relative;
+  width: 40px;
+}
+
+.form-search button img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.list-wrapper .list-element .song-name a,
+.list-wrapper .list-element .song-name * {
+  font-size: 34.43px;
+  color: #000000;
+  font-weight: 900;
+}
+
+.list-wrapper .list-element .song-artist {
+	font-size: 25.82px;
+	line-height: normal;
+	color: #000000;
+
+	a {
+		color: #000000;
+	}
+}
+
+.list-wrapper .list-element:first-child .song-name a {
+  font-size: 48px;
+}
+
+.list-wrapper .list-element .song-stats {
+  font-size: 22.03px;
+}
+
+.list-wrapper .list-element .song-stats strong {
+  font-weight: 900;
+}
+
+.list-wrapper .list-element:first-child .song-stats {
+  text-align: right;
+  bottom: -40px;
+}
+
+.list-wrapper .list-element .song-stats .stat-single {
+  display: inline-block;
+}
+
+.list-wrapper .list-element .song-stats .stat-single:not(:last-child):after {
+  content: '/';
+}
+
+.list-wrapper .list-element:first-child .song-stats .stat-single {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.list-wrapper .list-element:first-child .song-stats .stat-single strong {
+  width: 36px;
+}
+
+.list-wrapper .list-element:first-child .song-stats .stat-single:not(:last-child):after,
+.list-wrapper .list-element:first-child .song-stats .stat-single.stat-peak {
+  display: none;
+}
+
+.list-wrapper .list-date {
+  font-size: 24px;
+  color: #000000;
+}
+
+.list-top {
+  padding-left: 78px;
+  padding-right: 78px;
+}
+
+.list-top .title {
+  font-size: 52.63px;
+  font-weight: 900;
+  color: #000000;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.list-top .description {
+  font-size: 16.65px;
+  color: #000000;
+  text-align: left;
+  margin-bottom: 36px;
 }

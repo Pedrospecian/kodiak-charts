@@ -26,6 +26,9 @@ $(document).ready(function(){
 	if ($('[data-list-id]').length > 0) {
 		$('[data-list-id]').on('click', function(e){
 			e.preventDefault();
+
+			$('tab-single').removeClass('active');
+			$(this).addClass('active');
 			$('[data-show-id]').removeClass('show');
 			$('[data-show-id=' + $(this).attr('data-list-id')+ ']').addClass('show');
 		});

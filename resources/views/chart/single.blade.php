@@ -1,8 +1,10 @@
 @extends('layouts.front')
 
 @section('content')
-    <div class="title">{{$list->name}}</div>
-    <p>{{$list->description}}</p>
+    <div class="list-top">
+        <div class="title">{{$list->name}}</div>
+        <p class="description">{{$list->description}}</p>
+    </div>
     @if(!is_null($emptyMessage))
     	{{ $emptyMessage }}
     @else
@@ -15,7 +17,7 @@
                     <div class="list-text">
                     	<div>
 	                    	<div class="song-name">
-	                    		{{ $position->song_name }}
+	                    		<span>{{ $position->song_name }}</span>
 	                    	</div>
 	                    	<div class="song-artist">
 	                    		<a href="/archive/single/{{ $position->main_artist_id }}">{{ $position->artist_name }}</a>
@@ -25,9 +27,15 @@
 	                    	</div>
 	                    </div>
                     	<div class="song-stats">
-                    		<strong>{{ $stats[1][$index][1]->position }}</strong> last week / 
-                    		<strong>{{ $stats[2][$index][0]->numeroSemanas }}</strong> weeks on chart /
-                    		<strong>{{ $stats[0][$index][0]->maiorPosicao }}</strong> peak
+                    		<span class="stat-single">
+                                <strong>{{ $stats[1][$index][1]->position }}</strong> <span>last week </span>
+                            </span>
+                    		<span class="stat-single">
+                                <strong>{{ $stats[2][$index][0]->numeroSemanas }}</strong> <span>weeks on chart</span>
+                            </span>
+                    		<span class="stat-single stat-peak">
+                                <strong>{{ $stats[0][$index][0]->maiorPosicao }}</strong> <span>peak</span>
+                            </span>
                     	</div>
                     </div>
                     <div class="list-icon">
